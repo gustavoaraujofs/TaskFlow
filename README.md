@@ -56,6 +56,6 @@ O objetivo principal deste projeto é criar uma plataforma intuitiva e eficiente
         Express
     </li>
     <li>
-        Postgresql
+        MySQL
     </li>
 </ul>
