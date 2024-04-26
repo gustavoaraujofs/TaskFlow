@@ -1,4 +1,4 @@
-const connection = require("./connection");
+const connection = require("../database/connection");
 
 const getTasksByUser = async (userId) => {
     const [tasks] = await connection.execute(
@@ -7,23 +7,17 @@ const getTasksByUser = async (userId) => {
     return tasks;
 };
 
-const createTaskUser = async (task, userId, categoryId = null) => {
-    let { titulo, descricao, prioridade, prazo_final } = task;
-
-    descricao = descricao || null;
-    prioridade = prioridade || null;
-    prazo_final = prazo_final || null;
-
+const createTaskUser = async (task) => {
     const [result] = await connection.execute(
         "INSERT INTO tarefas (titulo, descricao, prioridade, prazo_final, status, usuario_id, categoria_id) VALUES(?, ?, ?, ?, ?, ?, ?)",
         [
-            titulo,
-            descricao,
-            prioridade,
-            prazo_final,
-            "Pendente",
-            userId,
-            categoryId,
+            task.titulo,
+            task.descricao,
+            task.prioridade,
+            task.prazo_final,
+            task.status,
+            task.usuario_id,
+            task.categoria_id,
         ]
     );
 
@@ -31,17 +25,16 @@ const createTaskUser = async (task, userId, categoryId = null) => {
 };
 
 const updateTaskUser = async (taskId, task) => {
-    let { titulo, descricao, prioridade, prazo_final, status, categoria_id } =
-        task;
-
-    descricao = descricao || null;
-    prioridade = prioridade || null;
-    prazo_final = prazo_final || null;
-    categoria_id = categoria_id || null;
-
     const [result] = await connection.execute(
         `UPDATE tarefas SET titulo = ?, descricao = ?, prioridade = ?, prazo_final = ?, status = ?, categoria_id = ? WHERE id_tarefa = ${taskId}`,
-        [titulo, descricao, prioridade, prazo_final, status, categoria_id]
+        [
+            task.titulo,
+            task.descricao,
+            task.prioridade,
+            task.prazo_final,
+            task.status,
+            task.categoria_id,
+        ]
     );
     return result;
 };

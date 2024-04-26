@@ -1,13 +1,12 @@
-const tasksMoldel = require("../models/tasksMoldel");
+const taskService = require("../services/tasksService");
 
 const getTasksByUser = async (req, res) => {
-    const { userId } = req.params;
-    const tasks = await tasksMoldel.getTasksByUser(userId);
+    const tasks = await taskService.getTasksByUser(req.params.userId);
     return res.status(200).json(tasks);
 };
 
 const createTaskUser = async (req, res) => {
-    const createdTask = await tasksMoldel.createTaskUser(
+    const createdTask = await taskService.createTaskUser(
         req.body,
         req.params.userId
     );
@@ -15,12 +14,12 @@ const createTaskUser = async (req, res) => {
 };
 
 const updateTaskUser = async (req, res) => {
-    await tasksMoldel.updateTaskUser(req.params.taskId, req.body);
+    await taskService.updateTaskUser(req.params.taskId, req.body);
     return res.status(204).json();
 };
 
 const deleteTaskUser = async (req, res) => {
-    await tasksMoldel.deleteTaskUser(req.params.taskId);
+    await taskService.deleteTaskUser(req.params.taskId);
     return res.status(204).json();
 };
 
