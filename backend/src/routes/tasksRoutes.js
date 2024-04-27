@@ -1,10 +1,16 @@
 const express = require("express");
 const tasksController = require("../controllers/tasksController");
 const tasksMiddleware = require("../middlewares/tasksMiddleware");
+const authMiddleware = require("../middlewares/authMiddleware");
 
 const router = express.Router();
 
-router.get("/tasks/:userId", tasksController.getTasksByUser);
+router.get(
+    "/tasks",
+    authMiddleware.checkToken,
+    tasksController.getTasksByUser
+);
+
 router.post(
     "/tasks/:userId",
     tasksMiddleware.validateRequiredFields,
@@ -17,6 +23,7 @@ router.put(
     tasksMiddleware.validateStatusField,
     tasksController.updateTaskUser
 );
+
 router.delete("/tasks/:taskId", tasksController.deleteTaskUser);
 
 module.exports = router;

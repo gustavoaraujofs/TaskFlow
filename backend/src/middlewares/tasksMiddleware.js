@@ -1,4 +1,4 @@
-const validateRequiredFields = async (req, res, next) => {
+const validateRequiredFields = (req, res, next) => {
     const { body } = req;
 
     if (!body.titulo) {
@@ -8,7 +8,7 @@ const validateRequiredFields = async (req, res, next) => {
     next();
 };
 
-const validateStatusField = async (req, res, next) => {
+const validateStatusField = (req, res, next) => {
     const { body } = req;
 
     if (!body.status) {
