@@ -7,21 +7,150 @@
 header {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: start;
+}
+
+
+body {
+    /*background: linear-gradient(to bottom, #11212D, #253745);*/
+    background-color: #0280A6;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 #LogoInicio {
     width: 4em;
 }
 
-.Titulo {
+#Title {
     color: aliceblue;
     text-shadow: 2px 2px black;
-
-
+    font-size: 25px;
 }
 
-body {
-    background-color: #0280a6;
-    font-family: Arial, Helvetica, sans-serif;
+main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#CenterBlock {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    width: 600px;
+    height: 500px;
+    border-radius: 15%;
+}
+
+#Register{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 200px;
+}
+
+#Register h1{
+    margin-bottom: 0.5em;
+}
+
+#Register input{
+    border-radius: 1em;
+    border: gray solid 0.5px;
+}
+
+#Register .email {
+    margin-bottom: 1em;
+    padding: 1em;
+}
+
+#Register .pass {
+    margin-bottom: 1.5em;
+    padding: 1em;
+}
+
+.RegisterButton {
+    background-color: #02779b;
+    border: none;
+    border-radius: 1em;
+    padding: 0.8em 0.5em;
+    width: 100px;
+    color: white;
+}
+
+.RegisterButton:hover {
+    background-color: #015e7a;
+}
+
+#Register footer {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+#Register footer a {
+    color: black;
+    text-decoration: none;
+}
+
+#Register footer a:hover {
+    color: #015e7a;
+}
+
+
+/*CSS FOR LOGIN*/
+#Login{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 200px;
+}
+
+#Login h1{
+    margin-bottom: 0.5em;
+}
+
+#Login input{
+    border-radius: 1em;
+    border: gray solid 0.5px;
+}
+
+#Login .email {
+    margin-bottom: 1em;
+    padding: 1em;
+}
+
+#Login .pass {
+    margin-bottom: 1.5em;
+    padding: 1em;
+}
+
+.LoginButton {
+    background-color: #02779b;
+    border: none;
+    border-radius: 1em;
+    padding: 0.8em 0.5em;
+    width: 100px;
+    color: white;
+}
+
+.LoginButton:hover {
+    background-color: #015e7a;
+}
+
+#Login footer {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+#Login footer a {
+    width: 107px;
+    text-decoration: none;
+    color: black;
+} 
+
+#Login footer a:hover {
+    color: #015e7a;
 }
