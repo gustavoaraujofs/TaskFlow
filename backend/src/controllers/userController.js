@@ -10,10 +10,23 @@ const createUser = async (req, res) => {
         });
         return res.status(201).json(createdUser);
     } catch (erro) {
-        return res.status(400).json({ error: erro.message });
+        return res.status(400).json({ message: erro.message });
+    }
+};
+
+const deleteUser = async (req, res) => {
+    try {
+        const userId = req.userId;
+        
+        await userService.deleteUser(userId);
+
+        return res.status(204).json();
+    } catch (erro) {
+        return res.status(400).json({ message: erro.message });
     }
 };
 
 module.exports = {
     createUser,
+    deleteUser,
 };

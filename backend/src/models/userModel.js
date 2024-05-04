@@ -16,7 +16,28 @@ const checkEmailExists = async (email) => {
     return result;
 };
 
+const deleteTasksByUser = async (userId) => {
+    await connection.execute("DELETE FROM tarefas WHERE usuario_id = ?", [
+        userId,
+    ]);
+};
+
+const deleteCategoriesByUser = async (userId) => {
+    await connection.execute("DELETE FROM categorias WHERE usuario_id = ?", [
+        userId,
+    ]);
+};
+
+const deleteUser = async (userId) => {
+    await connection.execute("DELETE FROM usuarios WHERE id_usuario = ?", [
+        userId,
+    ]);
+};
+
 module.exports = {
     createUser,
     checkEmailExists,
+    deleteTasksByUser,
+    deleteCategoriesByUser,
+    deleteUser,
 };

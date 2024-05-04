@@ -1,8 +1,15 @@
 const userModel = require("../models/userModel");
 const bcrypt = require("bcrypt");
 
+const removeSpaces = (str) => {
+    return str.trim();
+};
+
 const createUser = async (user) => {
-    const { nome, email, senha } = user;
+    const { email, senha } = user;
+    let { nome } = user;
+
+    nome = removeSpaces(nome);
 
     try {
         const result = await userModel.checkEmailExists(email);
@@ -19,6 +26,19 @@ const createUser = async (user) => {
     }
 };
 
+const deleteUser = async (userId) => {
+    try {
+        await userModel.deleteTasksByUser(userId);
+
+        await userModel.deleteCategoriesByUser(userId);
+
+        await userModel.deleteUser(userId);
+    } catch (erro) {
+        throw erro;
+    }
+};
+
 module.exports = {
     createUser,
+    deleteUser,
 };
