@@ -3,35 +3,35 @@ const validateRequiredFields = (req, res, next) => {
     const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     if (!nome) {
-        return res.status(400).json({ error: "O campo nome é obrigatório." });
+        return res.status(400).json({ message: "O campo nome é obrigatório." });
     }
 
     if (!email) {
-        return res.status(400).json({ error: "O campo email é obrigatório." });
+        return res.status(400).json({ message: "O campo email é obrigatório." });
     }
 
     if (!regex.test(email)) {
-        return res.status(400).json({ error: "Email inválido!" });
+        return res.status(400).json({ message: "Email inválido!" });
     }
 
     if (!senha) {
-        return res.status(400).json({ error: "O campo senha é obrigatório." });
+        return res.status(400).json({ message: "O campo senha é obrigatório." });
     }
 
     if (senha.length < 4) {
         return res
             .status(400)
-            .json({ error: "A senha deve ter no mínimo 4 caracteres." });
+            .json({ message: "A senha deve ter no mínimo 4 caracteres." });
     }
 
     if (senha.includes(" ")) {
         return res
             .status(400)
-            .json({ error: "A senha não pode conter espacos em branco." });
+            .json({ message: "A senha não pode conter espacos em branco." });
     }
 
     if (senha !== confirmeSenha) {
-        return res.status(400).json({ error: "As senhas não conferem." });
+        return res.status(400).json({ message: "As senhas não conferem." });
     }
 
     next();

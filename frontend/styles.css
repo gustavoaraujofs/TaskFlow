@@ -1,4 +1,4 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -10,10 +10,9 @@ header {
     justify-content: start;
 }
 
-
 body {
     /*background: linear-gradient(to bottom, #11212D, #253745);*/
-    background-color: #0280A6;
+    background-color: #0280a6;
     font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -44,30 +43,56 @@ main {
     border-radius: 15%;
 }
 
-#Register{
+#Register {
     display: flex;
     align-items: center;
     flex-direction: column;
     width: 200px;
 }
 
-#Register h1{
+#Register h1 {
     margin-bottom: 0.5em;
 }
 
-#Register input{
+#Register input {
     border-radius: 1em;
     border: gray solid 0.5px;
-}
-
-#Register .email {
     margin-bottom: 1em;
     padding: 1em;
 }
 
-#Register .pass {
-    margin-bottom: 1.5em;
-    padding: 1em;
+.msg {
+    /* background-color: #28a745; */
+    /* background-color: #dc3545; */
+    margin-top: 1.5em;
+    border-radius: 0.2em;
+    padding: 0.5em;
+    width: 80%;
+    color: white;
+    text-align: center;
+    display: none;
+}
+
+.message-erro {
+    background-color: #dc3545;
+    margin-top: 1.5em;
+    border-radius: 0.2em;
+    padding: 0.5em;
+    width: 80%;
+    color: white;
+    text-align: center;
+    display: block;
+}
+
+.message-sucesso {
+    background-color: #28a745;
+    margin-top: 1.5em;
+    border-radius: 0.2em;
+    padding: 0.5em;
+    width: 80%;
+    color: white;
+    text-align: center;
+    display: block;
 }
 
 .RegisterButton {
@@ -77,6 +102,7 @@ main {
     padding: 0.8em 0.5em;
     width: 100px;
     color: white;
+    cursor: pointer;
 }
 
 .RegisterButton:hover {
@@ -98,20 +124,19 @@ main {
     color: #015e7a;
 }
 
-
 /*CSS FOR LOGIN*/
-#Login{
+#Login {
     display: flex;
     align-items: center;
     flex-direction: column;
     width: 200px;
 }
 
-#Login h1{
+#Login h1 {
     margin-bottom: 0.5em;
 }
 
-#Login input{
+#Login input {
     border-radius: 1em;
     border: gray solid 0.5px;
 }
@@ -149,7 +174,7 @@ main {
     width: 107px;
     text-decoration: none;
     color: black;
-} 
+}
 
 #Login footer a:hover {
     color: #015e7a;
