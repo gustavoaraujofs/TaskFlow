@@ -25,6 +25,14 @@ const getCategoryByName = async (category) => {
     return result;
 };
 
+const getCategoryById = async (categoryId) => {
+    const [result] = await connection.execute(
+        "SELECT * FROM categorias WHERE id_categoria = ?",
+        [categoryId]
+    );
+    return result;
+};
+
 const updateCategoryByUser = async (category) => {
     await connection.execute(
         "UPDATE categorias SET nome = ? WHERE id_categoria = ? AND usuario_id = ?",
@@ -50,6 +58,7 @@ module.exports = {
     createCategory,
     getCategoriesByUser,
     getCategoryByName,
+    getCategoryById,
     updateCategoryByUser,
     deleteTasksByCategory,
     deleteCategory,
