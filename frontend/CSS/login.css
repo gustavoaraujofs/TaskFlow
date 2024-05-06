@@ -33,71 +33,32 @@ main {
     justify-content: center;
 }
 
-#CenterBlock {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: white;
-    width: 600px;
-    height: 500px;
-    border-radius: 15%;
+@media (max-width: 768px) {   /*Telas menores*/
+    #CenterBlock {
+        display: flex;
+        margin-top: 10em;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: white;
+        width: 300px;
+        height: 250px;
+        border-radius: 15%;
+    }
 }
-
-#Register{
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    width: 200px;
+/*ajuste*/
+@media (min-width: 768px) {  /* Telas maiores */
+    #CenterBlock {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: white;
+        width: 600px;
+        height: 500px;
+        border-radius: 15%;
+    }
 }
-
-#Register h1{
-    margin-bottom: 0.5em;
-}
-
-#Register input{
-    border-radius: 1em;
-    border: gray solid 0.5px;
-}
-
-#Register .email {
-    margin-bottom: 1em;
-    padding: 1em;
-}
-
-#Register .pass {
-    margin-bottom: 1.5em;
-    padding: 1em;
-}
-
-.RegisterButton {
-    background-color: #02779b;
-    border: none;
-    border-radius: 1em;
-    padding: 0.8em 0.5em;
-    width: 100px;
-    color: white;
-}
-
-.RegisterButton:hover {
-    background-color: #015e7a;
-}
-
-#Register footer {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-}
-
-#Register footer a {
-    color: black;
-    text-decoration: none;
-}
-
-#Register footer a:hover {
-    color: #015e7a;
-}
-
 
 /*CSS FOR LOGIN*/
 #Login{
@@ -114,6 +75,7 @@ main {
 #Login input{
     border-radius: 1em;
     border: gray solid 0.5px;
+    width: 230px;
 }
 
 #Login .email {
@@ -143,6 +105,7 @@ main {
     display: flex;
     align-items: center;
     gap: 18px;
+    margin-bottom: 3em;
 }
 
 #Login footer a {
