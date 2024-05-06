@@ -1,31 +1,30 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TaskFlow</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/frontend/CSS/register.css">
+    <script>src="scripts.js"</script>
 </head>
-
 <body>
     <header>
-        <img src="imgs/logo.png" alt="Logo do TaskFlow" id="LogoInicio">
+        <img src="/frontend/imgs/logo.png" alt="Logo do TaskFlow" id="LogoInicio">
         <h1 id="Title">Taskflow</h1>
     </header>
 
     <main>
         <div id="CenterBlock">
             <div>
-                <img src="imgs/logo.png" alt="Logo do TaskFlow" id="LogoInicio">
+                <img src="/frontend/imgs/logo.png" alt="Logo do TaskFlow" id="LogoInicio">
             </div>
             <form action="" id="Register">
                 <h1>Cadastro</h1>
-                <input type="text" name="nome" placeholder="Nome Completo" id="nome" autocomplete="off" required>
+                <!-- <input type="text" name="nome" placeholder="Nome Completo" id="nome" autocomplete="off" required> -->
                 <input type="email" name="email" placeholder="Digite seu email" id="email" class="email" required
                     autocomplete="off">
                 <input type="password" name="password" placeholder="Digite sua senha" id="pass" class="pass" required>
-                <input type="password" name="confirmePass" placeholder="Confirme sua senha" id="confirme-pass" required>
+                <!-- <input type="password" name="confirmePass" placeholder="Confirme sua senha" id="confirme-pass" required> -->
                 <footer>
                     <button type="submit" class="RegisterButton" id="btn-cadastrar">
                         cadastrar
@@ -38,7 +37,7 @@
         </div>
     </main>
 
-    <script src="scripts.js"></script>
+    <script src="../scripts.js"></script>
 </body>
 
 </html>
