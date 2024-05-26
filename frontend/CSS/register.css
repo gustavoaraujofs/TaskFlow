@@ -132,6 +132,7 @@ main {
     padding: 0.8em 0.5em;
     width: 100px;
     color: white;
+    cursor: pointer;
 }
 
 .RegisterButton:hover {

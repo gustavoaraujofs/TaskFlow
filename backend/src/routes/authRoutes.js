@@ -10,4 +10,6 @@ router.post(
     authControler.loginUser
 );
 
+router.post("/validate", authMiddleware.checkToken, authControler.validate);
+
 module.exports = router;

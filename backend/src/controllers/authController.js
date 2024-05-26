@@ -9,6 +9,11 @@ const loginUser = async (req, res) => {
     }
 };
 
+const validate = (req, res) => {
+    return res.sendStatus(200).json;
+};
+
 module.exports = {
     loginUser,
+    validate,
 };
