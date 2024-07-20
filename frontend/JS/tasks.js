@@ -1,51 +1,67 @@
-const inputTarefa = document.querySelector('.input-tarefa')
-const btnTarefa = document.querySelector('.btn-tarefa')
-const tarefas = document.querySelector('.tarefas')
+const inputTarefa = document.querySelector(".input-tarefa");
+const btnTarefa = document.querySelector(".btn-tarefa");
+const tarefas = document.querySelector(".tarefas");
 
-function criaLi(){
-    const li = document.createElement('li')
-    return li;
-}
+const token = localStorage.getItem("authToken");
 
-inputTarefa.addEventListener('keypress', function(e){
-    if(e.keyCode === 13) {
-        if(!inputTarefa.value) return;
-        criaTarefa(inputTarefa.value);
-    }
-});
+const search = async () => {
+    const retorno = await fetch("http://localhost:3000/tasks", {
+        method: "GET",
+        headers: {
+            authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+    });
+    const response = await retorno.json();
+    console.log(response);
+};
 
-function limpaInput(){
-    inputTarefa.value = '';
-    inputTarefa.focus();
-}
+search();
+// console.log(tasks);
 
-function criaBotaoApagar(li){
-    li.innerText += ' ';
-    const botaoApagar = document.createElement('button');
-    botaoApagar.innerText = 'Apagar';
-    botaoApagar.setAttribute('class', 'apagar');
-    botaoApagar.setAttribute('title', 'Apagar esta tarefa');
-    li.appendChild(botaoApagar);
-}
+// function criaLi() {
+//     const li = document.createElement("li");
+//     return li;
+// }
 
-function criaTarefa(textoInput){
-    const li = criaLi();
-    li.innerText = textoInput;
-    tarefas.appendChild(li);
-    limpaInput();
-    criaBotaoApagar(li);
-} 
+// inputTarefa.addEventListener("keypress", function (e) {
+//     if (e.keyCode === 13) {
+//         if (!inputTarefa.value) return;
+//         criaTarefa(inputTarefa.value);
+//     }
+// });
 
-btnTarefa.addEventListener('click', function() {
-    if(!inputTarefa.value) return;
+// function limpaInput() {
+//     inputTarefa.value = "";
+//     inputTarefa.focus();
+// }
 
-    criaTarefa(inputTarefa.value);
-});
+// function criaBotaoApagar(li) {
+//     li.innerText += " ";
+//     const botaoApagar = document.createElement("button");
+//     botaoApagar.innerText = "Apagar";
+//     botaoApagar.setAttribute("class", "apagar");
+//     botaoApagar.setAttribute("title", "Apagar esta tarefa");
+//     li.appendChild(botaoApagar);
+// }
 
-document.addEventListener('click', function(e) {
-    const el = e.target;
-    if(el.classList.contains('apagar')){
-        el.parentElement.remove();
+// function criaTarefa(textoInput) {
+//     const li = criaLi();
+//     li.innerText = textoInput;
+//     tarefas.appendChild(li);
+//     limpaInput();
+//     criaBotaoApagar(li);
+// }
 
-    }
-});
+// btnTarefa.addEventListener("click", function () {
+//     if (!inputTarefa.value) return;
+
+//     criaTarefa(inputTarefa.value);
+// });
+
+// document.addEventListener("click", function (e) {
+//     const el = e.target;
+//     if (el.classList.contains("apagar")) {
+//         el.parentElement.remove();
+//     }
+// });
