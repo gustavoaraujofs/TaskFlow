@@ -1,13 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Urbanist', sans-serif;
 }
 
 header {
     display: flex;
     align-items: center;
     justify-content: start;
+    margin-bottom: 2em;
 }
 
 
@@ -31,53 +35,50 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
+    
 }
 
 @media (max-width: 768px) {   /*Telas menores*/
     #CenterBlock {
         display: flex;
         margin-top: 10em;
+        margin-bottom: 6em;
         flex-direction: column;
         justify-content: start;
         align-items: center;
         background-color: white;
-        width: 300px;
-        height: 350px;
+        /* width: 300px; */
+        width: 400px;
+        /* height: 350px; */
+        min-height: 350px;
+        height: fit-content;
         border-radius: 2em;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        
+        
     }
 
     .InsideContent {
         margin-left: 0.8em;
+        margin-right: 0.8em;
     }
-
-    .InsideContent input {
-        
-        width: 50%;
-    }
-
-    .InsideContent button {
-        margin: 0;
-        height: fit-content;
-    }
-
-    .InsideContent ul {
-        margin-left: 1.5em;
-    }
-
-
 }
 /*ajuste*/
 @media (min-width: 768px) {  /* Telas maiores */
     #CenterBlock {
+        margin-bottom: 8em;
         display: flex;
         flex-direction: column;
         justify-content: start;
         align-items: center;
         background-color: white;
-        width: 600px;
-        height: 500px;
+        /* width: 600px; */
+        width: 700px;
+        /* height: 500px; */
+        min-height: 500px;
+        height: fit-content;
         border-radius: 15%;
-
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
     }
 }
 
@@ -87,42 +88,105 @@ main {
     font-size: 0.8em;
 }
 
-.InsideContent {
-    display: flex;
+/* .InsideContent {
     flex-direction: column;
     align-items: start;
+    
+} */
+
+.InsideContent form{
+    display: flex;
+    margin-bottom: 40px;
+    gap: 15px;
 }
 
-
-.InsideContent input {
+.input-tarefa {
     font-size: 15px;
-    margin-top: 2em;
     padding: 0.5em;
     border-radius: 0.8em;
     border: 1px solid gray;
     margin-right: 0.5em;
+    /**/
+    /* width: 87.565%; */
+    width: 100%;
+    flex: 1;
+    font-weight: 550;
 }
 
-.InsideContent button {
-    padding: 0.7em;
+button[type="submit"]{
+    cursor: pointer;
+    padding: 0.3em;
     border-radius: 0.8em;
     border: 1px solid gray;
-}
-
-.InsideContent button:hover {
-    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.4);
-}
-
-.InsideContent button:active {
-    background-color: #0280A6;
-    color: white;
+    cursor: pointer;
     
 }
 
-.InsideContent ul {
-    margin-top: 1em;
+button[type="submit"]:hover{
+    background-color: #0280A6;
+    color: white;
 }
 
-.InsideContent ul li {
-    margin-top: 1em;
+
+.InsideContent button:active {
+    /* background-color: #0280A6;
+    color: whitesmoke; */
+    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.5);
+    box-shadow: none;
+    
 }
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 3em;
+}
+
+td, th {
+    padding: 10px 15px;
+    border: 1px solid #DDD;
+    text-align: center;
+}
+
+td{
+    color: #333;
+    font-weight: 500;
+}
+
+tr:nth-child(even){
+    background-color: #F5F5F5;
+}
+
+select{
+    width: 100%;
+    border: 1px solid #DDD;
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+select:hover{
+    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.3);
+}
+
+.btn-action{
+    padding: 0.3em;
+    border-radius: 0.8em;
+    border: 1px solid gray;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1px;
+}
+
+.btn-action:nth-child(1):hover {
+    background-color: rgb(237, 180, 66);
+    color: #FFF;   
+  }
+  
+  .btn-action:nth-child(2):hover {
+    background-color: rgba(237, 42, 42, 0.9);
+    color: #FFF;   
+  }
