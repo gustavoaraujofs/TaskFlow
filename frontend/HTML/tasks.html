@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TaskFow</title>
     <link rel="stylesheet" href="/frontend/CSS/tasks.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-    <!-- <script src="../JS/validate.js"></script> -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <script src="../JS/validate.js"></script>
 </head>
+
 <body>
     <header>
         <img src="/frontend/imgs/logo.png" alt="Logo do TaskFlow" id="LogoInicio">
@@ -24,7 +27,7 @@
                 </span>
             </header>
             <div class="InsideContent">
-                <form class add-form>
+                <form class="add-form">
                     <input type="text" class="input-tarefa" placeholder="Nome da tarefa">
                     <button class="btn-tarefa" type="submit">
                         <span class="material-symbols-outlined">
@@ -33,118 +36,28 @@
                     </button>
                 </form>
                 <!-- <ul class="tarefas"></ul> -->
-                 <table>
+                <table id="my-table">
                     <thead>
                         <tr>
                             <th>Tarefa</th>
-                            <th>Criada em</th>
+                            <th>Prazo</th>
                             <th>Status</th>
                             <th>Ações</th>
                         </tr>
-                        
+
                     </thead>
 
                     <tbody>
-                        <tr>
-                            <td>Título tarefa</td>
-                            <td>01 de janeiro de 2023</td>
-                            <td>
-                                <select>
-                                    <option value="pendente">pendente</option>
-                                    <option value="em andamento">em andamento</option>
-                                    <option value="concluída">concluída</option>
-                                </select>
-                            </td>
-                            <td>
-                                <button class="btn-action">
-                                    <span class="material-symbols-outlined">
-                                    edit_note
-                                    </span>
-                                </button>
-                                <button class="btn-action">
-                                    <span class="material-symbols-outlined">
-                                        delete
-                                    </span>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Título tarefa</td>
-                            <td>01 de janeiro de 2023</td>
-                            <td>
-                                <select>
-                                    <option value="pendente">pendente</option>
-                                    <option value="em andamento">em andamento</option>
-                                    <option value="concluída">concluída</option>
-                                </select>
-                            </td>
-                            <td>
-                                <button class="btn-action">
-                                    <span class="material-symbols-outlined">
-                                    edit_note
-                                    </span>
-                                </button>
-                                <button class="btn-action">
-                                    <span class="material-symbols-outlined">
-                                        delete
-                                    </span>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Título tarefa</td>
-                            <td>01 de janeiro de 2023</td>
-                            <td>
-                                <select>
-                                    <option value="pendente">pendente</option>
-                                    <option value="em andamento">em andamento</option>
-                                    <option value="concluída">concluída</option>
-                                </select>
-                            </td>
-                            <td>
-                                <button class="btn-action">
-                                    <span class="material-symbols-outlined">
-                                    edit_note
-                                    </span>
-                                </button>
-                                <button class="btn-action">
-                                    <span class="material-symbols-outlined">
-                                        delete
-                                    </span>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Título tarefa</td>
-                            <td>01 de janeiro de 2023</td>
-                            <td>
-                                <select>
-                                    <option value="pendente">pendente</option>
-                                    <option value="em andamento">em andamento</option>
-                                    <option value="concluída">concluída</option>
-                                </select>
-                            </td>
-                            <td>
-                                <button class="btn-action">
-                                    <span class="material-symbols-outlined">
-                                    edit_note
-                                    </span>
-                                </button>
-                                <button class="btn-action">
-                                    <span class="material-symbols-outlined">
-                                        delete
-                                    </span>
-                                </button>
-                            </td>
-                        </tr>
+
                     </tbody>
 
-                 </table>
+                </table>
 
             </div>
-    
+
         </div>
     </main>
-    <!-- <script src="/frontend/JS/tasks.js"></script> -->
+    <script src="/frontend/JS/tasks.js"></script>
 </body>
+
 </html>

@@ -1,10 +1,9 @@
-const inputTarefa = document.querySelector(".input-tarefa");
-const btnTarefa = document.querySelector(".btn-tarefa");
-const tarefas = document.querySelector(".tarefas");
-
+const tbody = document.querySelector("#my-table tbody");
+const addForm = document.querySelector(".add-form");
+const inputTask = document.querySelector(".input-tarefa");
 const token = localStorage.getItem("authToken");
 
-const search = async () => {
+const getTasks = async () => {
     const retorno = await fetch("http://localhost:3000/tasks", {
         method: "GET",
         headers: {
@@ -13,55 +12,147 @@ const search = async () => {
         },
     });
     const response = await retorno.json();
-    console.log(response);
+    return response;
 };
 
-search();
-// console.log(tasks);
+const createTask = async (e) => {
+    e.preventDefault();
+    const task = { titulo: inputTask.value };
 
-// function criaLi() {
-//     const li = document.createElement("li");
-//     return li;
-// }
+    await fetch("http://localhost:3000/tasks", {
+        method: "POST",
+        headers: {
+            authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(task),
+    });
 
-// inputTarefa.addEventListener("keypress", function (e) {
-//     if (e.keyCode === 13) {
-//         if (!inputTarefa.value) return;
-//         criaTarefa(inputTarefa.value);
-//     }
-// });
+    loadTaks();
+    inputTask.value = "";
+};
 
-// function limpaInput() {
-//     inputTarefa.value = "";
-//     inputTarefa.focus();
-// }
+const deleteTask = async (id_tarefa) => {
+    await fetch(`http://localhost:3000/tasks/${id_tarefa}`, {
+        method: "DELETE",
+        headers: {
+            authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+    });
 
-// function criaBotaoApagar(li) {
-//     li.innerText += " ";
-//     const botaoApagar = document.createElement("button");
-//     botaoApagar.innerText = "Apagar";
-//     botaoApagar.setAttribute("class", "apagar");
-//     botaoApagar.setAttribute("title", "Apagar esta tarefa");
-//     li.appendChild(botaoApagar);
-// }
+    loadTaks();
+};
 
-// function criaTarefa(textoInput) {
-//     const li = criaLi();
-//     li.innerText = textoInput;
-//     tarefas.appendChild(li);
-//     limpaInput();
-//     criaBotaoApagar(li);
-// }
+const updateTask = async ({ id_tarefa, titulo, status }) => {
+    await fetch(`http://localhost:3000/tasks/${id_tarefa}`, {
+        method: "PUT",
+        headers: {
+            authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ titulo, status }),
+    });
 
-// btnTarefa.addEventListener("click", function () {
-//     if (!inputTarefa.value) return;
+    loadTaks();
+};
 
-//     criaTarefa(inputTarefa.value);
-// });
+const createElement = (tag, conteudo = "", tagHtml = "") => {
+    const td = document.createElement(tag);
+    if (conteudo) {
+        td.textContent = conteudo;
+    }
+    if (tagHtml) {
+        td.innerHTML = tagHtml;
+    }
+    return td;
+};
 
-// document.addEventListener("click", function (e) {
-//     const el = e.target;
-//     if (el.classList.contains("apagar")) {
-//         el.parentElement.remove();
-//     }
-// });
+const createSelect = (value) => {
+    const options = `
+    <option value="Pendente">pendente</option>
+    <option value="Em andamento">em andamento</option>
+    <option value="Concluída">concluída</option>
+    `;
+
+    const select = createElement("select", "", options);
+
+    select.value = value;
+
+    return select;
+};
+
+const createBody = (tasks) => {
+    const { id_tarefa, titulo, prazo_final, status } = tasks;
+    const tr = document.createElement("tr");
+    const tdTitle = createElement("td", titulo);
+    tr.appendChild(tdTitle);
+
+    let td = createElement("td", prazo_final);
+    tr.appendChild(td);
+
+    const select = createSelect(status);
+
+    select.addEventListener("change", ({ target }) =>
+        updateTask({ ...tasks, status: target.value })
+    );
+
+    td = createElement("td");
+    td.appendChild(select);
+    tr.appendChild(td);
+
+    const editButton = createElement(
+        "button",
+        "",
+        '<span class="material-symbols-outlined">edit_note</span>'
+    );
+
+    const deleteButton = createElement(
+        "button",
+        "",
+        '<span class="material-symbols-outlined">delete</span>'
+    );
+
+    td = createElement("td", "");
+    td.appendChild(editButton);
+    td.appendChild(deleteButton);
+    tr.appendChild(td);
+
+    const editForm = createElement("form");
+    const editInput = createElement("input");
+
+    editInput.value = titulo;
+    editForm.appendChild(editInput);
+
+    editForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        updateTask({ id_tarefa, titulo: editInput.value, status });
+    });
+
+    editButton.addEventListener("click", () => {
+        tdTitle.innerText = "";
+        tdTitle.appendChild(editForm);
+    });
+
+    editButton.classList.add("btn-action");
+    deleteButton.classList.add("btn-action");
+
+    deleteButton.addEventListener("click", () => deleteTask(id_tarefa));
+
+    return tr;
+};
+
+const loadTaks = async () => {
+    const tasks = await getTasks();
+
+    tbody.innerHTML = "";
+
+    tasks.forEach((tasks) => {
+        const tr = createBody(tasks);
+        tbody.appendChild(tr);
+    });
+};
+
+addForm.addEventListener("submit", createTask);
+
+loadTaks();
