@@ -163,7 +163,7 @@ const createBody = (tasks) => {
     const select = createSelect(status);
 
     select.addEventListener("change", ({ target }) => {
-        let novoPrazo = prazo_final.split("T")[0];
+        let novoPrazo = prazo_final ? prazo_final.split("T")[0] : prazo_final;
         console.log(novoPrazo);
         updateTask({ id_tarefa, titulo, novoPrazo, status: target.value });
     });
