@@ -1,19 +1,20 @@
-// Função para formatar a data e hora para envio ao backend
-const formatDateToBackend = (dateTimeString) => {
-    const date = new Date(dateTimeString);
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Janeiro é 0!
-    const year = date.getFullYear();
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    return `${year}-${month}-${day} ${hours}:${minutes}`;
-};
-
 const tbody = document.querySelector("#my-table tbody");
 const addForm = document.querySelector(".add-form");
 const inputTask = document.querySelector(".input-tarefa");
 const inputPrazo = document.querySelector(".input-prazo");
+const btnCreate = document.querySelector(".btn-tarefa");
 const token = localStorage.getItem("authToken");
+
+// Função para formatar a data e hora para envio ao backend
+const formatDateToBackend = (dateTimeString) => {
+    const date = new Date(dateTimeString);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Janeiro é 0!
+    const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    return `${year}-${month}-${day} ${hours}:${minutes}`;
+};
 
 const getTasks = async () => {
     const retorno = await fetch("http://localhost:3000/tasks", {
@@ -32,10 +33,10 @@ const createTask = async (e) => {
     e.preventDefault();
     const task = {
         titulo: inputTask.value,
-        prazo_final: inputPrazo.value || null // Define null se o campo de prazo estiver vazio
+        prazo_final: inputPrazo.value || null, // Define null se o campo de prazo estiver vazio
     };
 
-    console.log("Dados enviados para criação:", task); // Log para verificar os dados enviados
+    console.log("Dados enviados para criação:", task.prazo_final); // Log para verificar os dados enviados
 
     const response = await fetch("http://localhost:3000/tasks", {
         method: "POST",
@@ -52,6 +53,7 @@ const createTask = async (e) => {
     loadTaks();
     inputTask.value = "";
     inputPrazo.value = "";
+    btnCreate.disabled = true;
 };
 
 const deleteTask = async (id_tarefa) => {
@@ -67,7 +69,11 @@ const deleteTask = async (id_tarefa) => {
 
     // Não tentar analisar JSON para resposta vazia
     if (!response.ok) {
-        console.error("Erro na exclusão da tarefa:", response.status, response.statusText);
+        console.error(
+            "Erro na exclusão da tarefa:",
+            response.status,
+            response.statusText
+        );
     } else {
         console.log("Tarefa excluída com sucesso");
     }
@@ -77,10 +83,19 @@ const deleteTask = async (id_tarefa) => {
 
 const updateTask = async ({ id_tarefa, titulo, prazo_final, status }) => {
     // Formatar a data e hora para um formato compatível com o banco de dados
-    const formattedPrazoFinal = prazo_final ? formatDateToBackend(prazo_final) : null;
+    const formattedPrazoFinal = prazo_final
+        ? formatDateToBackend(prazo_final)
+        : null;
 
-    const dadosAtualizacao = { titulo, prazo_final: formattedPrazoFinal, status };
-    console.log("Dados enviados para atualização:", { id_tarefa, ...dadosAtualizacao }); // Log para verificar os dados enviados
+    const dadosAtualizacao = {
+        titulo,
+        prazo_final: formattedPrazoFinal,
+        status,
+    };
+    console.log("Dados enviados para atualização:", {
+        id_tarefa,
+        ...dadosAtualizacao,
+    }); // Log para verificar os dados enviados
 
     const response = await fetch(`http://localhost:3000/tasks/${id_tarefa}`, {
         method: "PUT",
@@ -96,8 +111,13 @@ const updateTask = async ({ id_tarefa, titulo, prazo_final, status }) => {
     console.log("Texto da resposta do servidor:", responseText); // Log detalhado da resposta
 
     if (!response.ok) {
-        console.error("Erro na atualização da tarefa:", response.status, response.statusText);
-    } else if (responseText) { // Verificar se há texto na resposta antes de analisar
+        console.error(
+            "Erro na atualização da tarefa:",
+            response.status,
+            response.statusText
+        );
+    } else if (responseText) {
+        // Verificar se há texto na resposta antes de analisar
         const result = JSON.parse(responseText); // Parse the JSON text
         console.log("Tarefa atualizada com sucesso:", result);
     }
@@ -134,21 +154,25 @@ const createSelect = (value, id_tarefa, titulo, prazo_final) => {
     return select;
 };
 
+const formatDate = (dateString) => {
+    const options = { dateStyle: "long" };
+    const date = new Date(dateString).toLocaleString("pt-br", options);
+    return date;
+};
+
+function getTodayDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+}
+
 const formatDateTimeLocal = (dateTimeString) => {
     const date = new Date(dateTimeString);
     const offset = date.getTimezoneOffset();
     const adjustedDate = new Date(date.getTime() - offset * 60 * 1000);
     return adjustedDate.toISOString().slice(0, 16);
-};
-
-const formatDateForDisplay = (dateTimeString) => {
-    const date = new Date(dateTimeString);
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Janeiro é 0!
-    const year = date.getFullYear();
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    return `${day}-${month}-${year} ${hours}:${minutes}`;
 };
 
 const createBody = (tasks) => {
@@ -157,7 +181,7 @@ const createBody = (tasks) => {
     const tdTitle = createElement("td", titulo);
     tr.appendChild(tdTitle);
 
-    const prazoText = prazo_final ? formatDateForDisplay(prazo_final) : "Sem prazo";
+    const prazoText = prazo_final ? formatDate(prazo_final) : "Sem prazo";
     const tdPrazo = createElement("td", prazoText);
     tr.appendChild(tdPrazo);
 
@@ -195,7 +219,12 @@ const createBody = (tasks) => {
 
     editForm.addEventListener("submit", (event) => {
         event.preventDefault();
-        updateTask({ id_tarefa, titulo: editInput.value, prazo_final: editPrazo.value || null, status });
+        updateTask({
+            id_tarefa,
+            titulo: editInput.value,
+            prazo_final: editPrazo.value || null,
+            status,
+        });
     });
 
     editButton.addEventListener("click", () => {
@@ -221,6 +250,17 @@ const createBody = (tasks) => {
 
     return tr;
 };
+
+const toggleSubmitButton = () => {
+    if (inputTask.value.trim() !== "") {
+        btnCreate.disabled = false;
+    } else {
+        btnCreate.disabled = true;
+    }
+};
+
+inputPrazo.setAttribute("min", getTodayDate());
+inputTask.addEventListener("input", toggleSubmitButton);
 
 const loadTaks = async () => {
     const tasks = await getTasks();
