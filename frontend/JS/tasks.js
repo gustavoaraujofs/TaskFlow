@@ -5,15 +5,10 @@ const inputPrazo = document.querySelector(".input-prazo");
 const btnCreate = document.querySelector(".btn-tarefa");
 const token = localStorage.getItem("authToken");
 
-// Função para formatar a data e hora para envio ao backend
-const formatDateToBackend = (dateTimeString) => {
-    const date = new Date(dateTimeString);
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Janeiro é 0!
-    const year = date.getFullYear();
-    const hours = String(date.getHours()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-    return `${year}-${month}-${day} ${hours}:${minutes}`;
+const formatDate = (dateString) => {
+    const options = { dateStyle: "long" };
+    const date = new Date(dateString).toLocaleString("pt-br", options);
+    return date;
 };
 
 const getTasks = async () => {
@@ -83,10 +78,7 @@ const deleteTask = async (id_tarefa) => {
 
 const updateTask = async ({ id_tarefa, titulo, prazo_final, status }) => {
     // Formatar a data e hora para um formato compatível com o banco de dados
-    const formattedPrazoFinal = prazo_final
-        ? formatDateToBackend(prazo_final)
-        : null;
-
+    const formattedPrazoFinal = prazo_final ? prazo_final : null;
     const dadosAtualizacao = {
         titulo,
         prazo_final: formattedPrazoFinal,
@@ -136,7 +128,7 @@ const createElement = (tag, conteudo = "", tagHtml = "") => {
     return td;
 };
 
-const createSelect = (value, id_tarefa, titulo, prazo_final) => {
+const createSelect = (value) => {
     const options = `
     <option value="Pendente">Pendente</option>
     <option value="Em andamento">Em andamento</option>
@@ -147,17 +139,7 @@ const createSelect = (value, id_tarefa, titulo, prazo_final) => {
 
     select.value = value;
 
-    select.addEventListener("change", ({ target }) =>
-        updateTask({ id_tarefa, titulo, prazo_final, status: target.value })
-    );
-
     return select;
-};
-
-const formatDate = (dateString) => {
-    const options = { dateStyle: "long" };
-    const date = new Date(dateString).toLocaleString("pt-br", options);
-    return date;
 };
 
 function getTodayDate() {
@@ -167,13 +149,6 @@ function getTodayDate() {
     const day = String(today.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
 }
-
-const formatDateTimeLocal = (dateTimeString) => {
-    const date = new Date(dateTimeString);
-    const offset = date.getTimezoneOffset();
-    const adjustedDate = new Date(date.getTime() - offset * 60 * 1000);
-    return adjustedDate.toISOString().slice(0, 16);
-};
 
 const createBody = (tasks) => {
     const { id_tarefa, titulo, prazo_final, status } = tasks;
@@ -185,10 +160,21 @@ const createBody = (tasks) => {
     const tdPrazo = createElement("td", prazoText);
     tr.appendChild(tdPrazo);
 
-    const select = createSelect(status, id_tarefa, titulo, prazo_final);
-    const tdStatus = createElement("td");
-    tdStatus.appendChild(select);
-    tr.appendChild(tdStatus);
+    const select = createSelect(status);
+
+    select.addEventListener("change", ({ target }) => {
+        let novoPrazo = prazo_final.split("T")[0];
+        console.log(novoPrazo);
+        updateTask({ id_tarefa, titulo, novoPrazo, status: target.value });
+    });
+
+    td = createElement("td");
+    td.appendChild(select);
+    tr.appendChild(td);
+
+    // const tdStatus = createElement("td");
+    // tdStatus.appendChild(select);
+    // tr.appendChild(tdStatus);
 
     const editButton = createElement(
         "button",
@@ -202,20 +188,26 @@ const createBody = (tasks) => {
         '<span class="material-symbols-outlined">delete</span>'
     );
 
-    const tdActions = createElement("td", "");
-    tdActions.appendChild(editButton);
-    tdActions.appendChild(deleteButton);
-    tr.appendChild(tdActions);
+    // const tdActions = createElement("td", "");
+    // tdActions.appendChild(editButton);
+    // tdActions.appendChild(deleteButton);
+    // tr.appendChild(tdActions);
+
+    td = createElement("td", "");
+    td.appendChild(editButton);
+    td.appendChild(deleteButton);
+    tr.appendChild(td);
 
     const editForm = createElement("form");
     const editInput = createElement("input");
     const editPrazo = createElement("input");
 
     editInput.value = titulo;
-    editPrazo.value = prazo_final ? formatDateTimeLocal(prazo_final) : "";
-    editPrazo.type = "datetime-local";
+    editPrazo.value = prazo_final ? prazo_final : "";
+    editPrazo.type = "date";
     editForm.appendChild(editInput);
     editForm.appendChild(editPrazo);
+    editPrazo.setAttribute("min", getTodayDate());
 
     editForm.addEventListener("submit", (event) => {
         event.preventDefault();
