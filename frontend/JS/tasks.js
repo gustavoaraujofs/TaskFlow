@@ -3,7 +3,12 @@ const addForm = document.querySelector(".add-form");
 const inputTask = document.querySelector(".input-tarefa");
 const inputPrazo = document.querySelector(".input-prazo");
 const btnCreate = document.querySelector(".btn-tarefa");
+const selectCategoria = document.querySelector(".input-categoria");
+const btnAcoesCategoria = document.querySelector('.btn-acoes-categoria');
+const dropdownMenu = document.querySelector('.dropdown-menu');
 const token = localStorage.getItem("authToken");
+
+const categorias = []; // Inicializa com algumas categorias exemplo
 
 const formatDate = (dateString) => {
     const options = { dateStyle: "long" };
@@ -11,8 +16,25 @@ const formatDate = (dateString) => {
     return date;
 };
 
-const getTasks = async () => {
-    const retorno = await fetch("http://localhost:3000/tasks", {
+// Função para carregar categorias no dropdown
+const loadCategorias = () => {
+    selectCategoria.innerHTML = `<option value="">Selecionar Categoria</option>`;
+    categorias.forEach(categoria => {
+        const option = document.createElement("option");
+        option.value = categoria;
+        option.textContent = categoria;
+        selectCategoria.appendChild(option);
+    });
+};
+
+// Evento para exibir tarefas da categoria selecionada
+selectCategoria.addEventListener("change", async (e) => {
+    const categoriaSelecionada = e.target.value;
+    await loadTaks(categoriaSelecionada);
+});
+
+const getTasks = async (categoria = "") => {
+    const retorno = await fetch(`http://localhost:3000/tasks?categoria=${categoria}`, {
         method: "GET",
         headers: {
             authorization: `Bearer ${token}`,
@@ -29,9 +51,10 @@ const createTask = async (e) => {
     const task = {
         titulo: inputTask.value,
         prazo_final: inputPrazo.value || null, // Define null se o campo de prazo estiver vazio
+        categoria: selectCategoria.value || null // Define null se nenhuma categoria for selecionada
     };
 
-    console.log("Dados enviados para criação:", task.prazo_final); // Log para verificar os dados enviados
+    console.log("Dados enviados para criação:", task); // Log para verificar os dados enviados
 
     const response = await fetch("http://localhost:3000/tasks", {
         method: "POST",
@@ -45,7 +68,7 @@ const createTask = async (e) => {
     const result = await response.json();
     console.log("Resposta do servidor para criação:", result); // Log para verificar a resposta do servidor
 
-    loadTaks();
+    await loadTaks(selectCategoria.value);
     inputTask.value = "";
     inputPrazo.value = "";
     btnCreate.disabled = true;
@@ -73,16 +96,17 @@ const deleteTask = async (id_tarefa) => {
         console.log("Tarefa excluída com sucesso");
     }
 
-    loadTaks();
+    await loadTaks(selectCategoria.value);
 };
 
-const updateTask = async ({ id_tarefa, titulo, prazo_final, status }) => {
+const updateTask = async ({ id_tarefa, titulo, prazo_final, status, categoria }) => {
     // Formatar a data e hora para um formato compatível com o banco de dados
     const formattedPrazoFinal = prazo_final ? prazo_final : null;
     const dadosAtualizacao = {
         titulo,
         prazo_final: formattedPrazoFinal,
         status,
+        categoria
     };
     console.log("Dados enviados para atualização:", {
         id_tarefa,
@@ -114,7 +138,7 @@ const updateTask = async ({ id_tarefa, titulo, prazo_final, status }) => {
         console.log("Tarefa atualizada com sucesso:", result);
     }
 
-    loadTaks();
+    await loadTaks(selectCategoria.value);
 };
 
 const createElement = (tag, conteudo = "", tagHtml = "") => {
@@ -151,7 +175,7 @@ function getTodayDate() {
 }
 
 const createBody = (tasks) => {
-    const { id_tarefa, titulo, prazo_final, status } = tasks;
+    const { id_tarefa, titulo, prazo_final, status, categoria } = tasks;
     const tr = document.createElement("tr");
     const tdTitle = createElement("td", titulo);
     tr.appendChild(tdTitle);
@@ -165,16 +189,12 @@ const createBody = (tasks) => {
     select.addEventListener("change", ({ target }) => {
         let novoPrazo = prazo_final ? prazo_final.split("T")[0] : prazo_final;
         console.log(novoPrazo);
-        updateTask({ id_tarefa, titulo, novoPrazo, status: target.value });
+        updateTask({ id_tarefa, titulo, prazo_final: novoPrazo, status: target.value, categoria });
     });
 
-    td = createElement("td");
+    let td = createElement("td");
     td.appendChild(select);
     tr.appendChild(td);
-
-    // const tdStatus = createElement("td");
-    // tdStatus.appendChild(select);
-    // tr.appendChild(tdStatus);
 
     const editButton = createElement(
         "button",
@@ -188,11 +208,6 @@ const createBody = (tasks) => {
         '<span class="material-symbols-outlined">delete</span>'
     );
 
-    // const tdActions = createElement("td", "");
-    // tdActions.appendChild(editButton);
-    // tdActions.appendChild(deleteButton);
-    // tr.appendChild(tdActions);
-
     td = createElement("td", "");
     td.appendChild(editButton);
     td.appendChild(deleteButton);
@@ -201,12 +216,21 @@ const createBody = (tasks) => {
     const editForm = createElement("form");
     const editInput = createElement("input");
     const editPrazo = createElement("input");
+    const editCategoria = createElement("select");
+
+    categorias.forEach(categoria => {
+        const option = document.createElement("option");
+        option.value = categoria;
+        option.textContent = categoria;
+        editCategoria.appendChild(option);
+    });
 
     editInput.value = titulo;
     editPrazo.value = prazo_final ? prazo_final : "";
     editPrazo.type = "date";
     editForm.appendChild(editInput);
     editForm.appendChild(editPrazo);
+    editForm.appendChild(editCategoria);
     editPrazo.setAttribute("min", getTodayDate());
 
     editForm.addEventListener("submit", (event) => {
@@ -216,6 +240,7 @@ const createBody = (tasks) => {
             titulo: editInput.value,
             prazo_final: editPrazo.value || null,
             status,
+            categoria: editCategoria.value
         });
     });
 
@@ -254,8 +279,8 @@ const toggleSubmitButton = () => {
 inputPrazo.setAttribute("min", getTodayDate());
 inputTask.addEventListener("input", toggleSubmitButton);
 
-const loadTaks = async () => {
-    const tasks = await getTasks();
+const loadTaks = async (categoria = "") => {
+    const tasks = await getTasks(categoria);
 
     tbody.innerHTML = "";
 
@@ -265,6 +290,53 @@ const loadTaks = async () => {
     });
 };
 
-addForm.addEventListener("submit", createTask);
+// Funções de gerenciamento de categorias
+document.querySelector('.btn-criar-categoria').addEventListener('click', (e) => {
+    e.preventDefault(); // Prevenir atualização da página
+    const novaCategoria = prompt("Digite o nome da nova categoria:");
+    if (novaCategoria && !categorias.includes(novaCategoria)) {
+        categorias.push(novaCategoria);
+        loadCategorias();
+        selectCategoria.value = novaCategoria;
+        loadTaks(novaCategoria); // Carrega as tarefas da nova categoria
+    }
+});
 
+document.querySelector('.btn-renomear-categoria').addEventListener('click', (e) => {
+    e.preventDefault(); // Prevenir atualização da página
+    const categoriaSelecionada = selectCategoria.value;
+    if (categoriaSelecionada) {
+        const novoNome = prompt("Digite o novo nome para a categoria:", categoriaSelecionada);
+        if (novoNome && !categorias.includes(novoNome)) {
+            const index = categorias.indexOf(categoriaSelecionada);
+            categorias[index] = novoNome;
+            loadCategorias();
+            selectCategoria.value = novoNome;
+            loadTaks(novoNome); // Carrega as tarefas da categoria renomeada
+        }
+    } else {
+        alert("Selecione uma categoria para renomear.");
+    }
+});
+
+document.querySelector('.btn-apagar-categoria').addEventListener('click', (e) => {
+    e.preventDefault(); // Prevenir atualização da página
+    const categoriaSelecionada = selectCategoria.value;
+    if (categoriaSelecionada) {
+        const confirmar = prompt(`Digite o nome da categoria "${categoriaSelecionada}" para confirmar a exclusão:`);
+        if (confirmar === categoriaSelecionada) {
+            const index = categorias.indexOf(categoriaSelecionada);
+            categorias.splice(index, 1);
+            loadCategorias();
+            selectCategoria.value = "";
+            loadTaks(""); // Carrega todas as tarefas sem categoria
+        } else {
+            alert("Nome da categoria incorreto.");
+        }
+    } else {
+        alert("Selecione uma categoria para apagar.");
+    }
+});
+
+loadCategorias(); // Carrega as categorias ao iniciar
 loadTaks();

@@ -36,6 +36,24 @@
                         </span>
                     </button>
                 </form>
+                <form class="add-form-category">
+                    <div class="form-group">
+                        <select class="input-categoria">
+                            <option value="">Selecionar Categoria</option>
+                            <!-- categorias existentes serão adicionadas dinamicamente aqui -->
+                        </select>
+                    </div>
+                    <button class="btn-acoes-categoria" type="button">
+                        <span class="material-symbols-outlined">
+                            edit_square
+                        </span>
+                    </button>
+                    <div class="dropdown-menu">
+                        <button class="btn-criar-categoria">Criar Categoria</button>
+                        <button class="btn-renomear-categoria">Renomear Categoria</button>
+                        <button class="btn-apagar-categoria">Apagar Categoria</button>
+                    </div>
+                </form>
                 <!-- <ul class="tarefas"></ul> -->
                 <table id="my-table">
                     <thead>
@@ -50,6 +68,7 @@
                     </tbody>
                 </table>
             </div>
+            
         </div>
     </main>
     <script src="/frontend/JS/tasks.js"></script>

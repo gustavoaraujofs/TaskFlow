@@ -185,3 +185,33 @@ select:hover {
     background-color: rgba(237, 42, 42, 0.9);
     color: #fff;
 }
+
+/* Estilos para o botão de ações e o menu dropdown */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: white;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    z-index: 1;
+    width: 200px; /* Ajuste a largura conforme necessário */
+    margin-left: 211px;
+}
+
+.btn-acoes-categoria:hover + .dropdown-menu,
+.dropdown-menu:hover {
+    display: block;
+}
+
+.dropdown-menu button {
+    display: block;
+    padding: 8px 16px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.dropdown-menu button:hover {
+    background-color: #f1f1f1;
+}
