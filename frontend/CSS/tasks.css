@@ -51,8 +51,9 @@ main {
         /* height: 350px; */
         min-height: 350px;
         height: fit-content;
-        border-radius: 2em;
+        border-radius: 3em;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        padding: 4em;
     }
 
     .InsideContent {
@@ -75,8 +76,9 @@ main {
         /* height: 500px; */
         min-height: 500px;
         height: fit-content;
-        border-radius: 15%;
+        border-radius: 7em;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        padding: 2em;
     }
 }
 
