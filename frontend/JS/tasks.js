@@ -180,7 +180,7 @@ const createBody = (tasks) => {
 
     if (status === "Concluída") {
         tdTitle.style.textDecoration = "line-through";
-        tdTitle.style.color = "red";
+        tdTitle.style.color = "green";
     }
 
     const select = createSelect(status);
@@ -282,7 +282,7 @@ const loadTaks = async (categoriaId = "") => {
 
     const filteredTasks = categoriaId
         ? tasks.filter((task) => task.categoria_id === categoriaId)
-        : tasks;
+        : tasks.filter((task) => task.categoria_id === null);
 
     filteredTasks.forEach((tasks) => {
         const tr = createBody(tasks);

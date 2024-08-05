@@ -21,7 +21,7 @@ const loginUser = async (loginData) => {
             { userId: user[0].id_usuario },
             process.env.JWT_SECRET,
             {
-                expiresIn: 600,
+                expiresIn: 7200,
             }
         );
 
