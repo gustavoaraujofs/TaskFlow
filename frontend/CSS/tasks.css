@@ -123,6 +123,12 @@ button[type="submit"]:hover {
     color: white;
 }
 
+button[type="submit"]:disabled {
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
+}
+
 .InsideContent button:active {
     /* background-color: #0280A6;
     color: whitesmoke; */
